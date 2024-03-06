@@ -1,0 +1,16 @@
+{
+  "name": "transaction-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "frog dev"
+  },
+  "dependencies": {
+    "@hono/node-server": "latest",
+    "frog": "^0.4.2",
+    "hono": "^4.0.10"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}
