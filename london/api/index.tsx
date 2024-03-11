@@ -1,13 +1,12 @@
-import { serveStatic } from "@hono/node-server/serve-static";
 import { Button, Frog, TextInput } from "frog";
-// import { neynar } from 'frog/hubs'
+import { handle } from "frog/vercel";
 
 export const app = new Frog({
+  assetsPath: "/",
+  basePath: "/api",
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 });
-
-app.use("/*", serveStatic({ root: "./public" }));
 
 let index = 0;
 app.frame("/", (c) => {
@@ -25,8 +24,11 @@ app.frame("/", (c) => {
     intents: [
       <Button value="prev">Previous</Button>,
       <Button value="next">Next</Button>,
-      <Button.Link href="mailto:matt@dynamic.xyz">Questions?</Button.Link>,
+      //<Button.Link href="mailto:matt@dynamic.xyz">Questions?</Button.Link>,
       //,status === "response" && <Button.Reset>Reset</Button.Reset>,
     ],
   });
 });
+
+export const GET = handle(app);
+export const POST = handle(app);
