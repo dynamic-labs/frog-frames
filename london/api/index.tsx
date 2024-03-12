@@ -28,8 +28,8 @@ app.frame("/", (c) => {
     image: imageMap[index],
     imageAspectRatio: "1:1", //index == 0 ? "1:1" : "1.91:1",
     intents: [
-      <Button value="prev">Previous</Button>,
-      <Button value="next">Next</Button>,
+      index != 0 && <Button value="prev">Previous</Button>,
+      index != pages - 1 && <Button value="next">Next</Button>,
       index == pages - 1 && (
         <Button.Link href="https://docs.dynamic.xyz/introduction/welcome">
           Questions?
