@@ -32,7 +32,7 @@ app.frame("/", (c) => {
       index != pages - 1 && <Button value="next">Next</Button>,
       index == pages - 1 && (
         <Button.Link href="https://docs.dynamic.xyz/introduction/welcome">
-          Questions?
+          Get started
         </Button.Link>
       ),
     ],
