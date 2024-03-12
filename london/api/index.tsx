@@ -26,7 +26,7 @@ app.frame("/", (c) => {
       index != lastPageIndex && <Button value="next">Next</Button>,
       index == lastPageIndex && (
         <Button.Link href="https://docs.dynamic.xyz/introduction/welcome">
-          Get started
+          Get Started
         </Button.Link>
       ),
     ],
