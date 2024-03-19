@@ -7,10 +7,16 @@ export const app = new Frog({
 });
 
 app.frame("/", async (c) => {
-  const { inputText } = c;
+  const { frameData, inputText, buttonValue } = c;
+  const isValidEmail = inputText
+    ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputText)
+    : false;
   const res = await fetch("https://random-word-api.herokuapp.com/word");
   const data = await res.text();
+  const fid = frameData?.fid;
 
+  // only after a button has been clicked
+  const error = buttonValue && (!isValidEmail || !fid);
   return c.res({
     image: (
       <div
@@ -39,15 +45,13 @@ app.frame("/", async (c) => {
             whiteSpace: "pre-wrap",
           }}
         >
-          {data}
+          {error ? "error creating wallet" : inputText || data}
         </div>
       </div>
     ),
     intents: [
-      <TextInput placeholder="Enter custom fruit..." />,
-      <Button value="apples">Apples</Button>,
-      <Button value="oranges">Oranges</Button>,
-      <Button value="bananas">Bananas</Button>,
+      <TextInput placeholder="Enter an email" />,
+      <Button value="submit">Create</Button>,
     ],
   });
 });
