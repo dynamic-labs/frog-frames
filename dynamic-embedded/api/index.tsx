@@ -2,20 +2,18 @@ import { Button, Frog, TextInput } from "frog";
 import { handle } from "frog/vercel";
 import { configDotenv } from "dotenv";
 import { ChainEnum } from "@dynamic-labs/sdk-api/models/ChainEnum";
-import { CreateUserEmbeddedWalletsFromFarcasterRequest } from "@dynamic-labs/sdk-api/models/CreateUserEmbeddedWalletsFromFarcasterRequest";
 import { UserResponse } from "@dynamic-labs/sdk-api/models/UserResponse";
 
 configDotenv();
 
 const key = process.env.KEY;
 const environmentId = process.env.ENVIRONMENT_ID;
+let newWallets: string[];
 
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
 });
-
-let newWallets: string[];
 
 const createEmbeddedWallet = async (
   email: string,
@@ -32,16 +30,15 @@ const createEmbeddedWallet = async (
       chains,
       email,
       fid,
-    } as CreateUserEmbeddedWalletsFromFarcasterRequest),
+    }),
   };
 
   const response = await fetch(
     `https://app.dynamicauth.com/api/v0/environments/${environmentId}/embeddedWallets/farcaster`,
-    //`http://localhost:4200/api/v0/environments/${environmentId}/embeddedWallets/farcaster`,
     options
-  );
-  const data = await response.json();
-  newWallets = (data as UserResponse).user.wallets.map(
+  ).then((r) => r.json());
+
+  newWallets = (response as UserResponse).user.wallets.map(
     (wallet: any) => wallet.publicKey
   );
 
@@ -55,13 +52,17 @@ app.frame("/", async (c) => {
     : false;
 
   const fid = frameData?.fid;
-  const error = status != "initial" && (!isValidEmail || !fid);
+  let error = status != "initial" && (!isValidEmail || !fid);
 
-  if (!error && inputText && fid && status != "initial")
-    newWallets = await createEmbeddedWallet(inputText, frameData?.fid, [
-      ChainEnum.Sol,
-      ChainEnum.Evm,
-    ]);
+  if (!error && status != "initial" && inputText && fid)
+    try {
+      newWallets = await createEmbeddedWallet(inputText, fid, [
+        ChainEnum.Sol,
+        ChainEnum.Evm,
+      ]);
+    } catch (e) {
+      error = true;
+    }
 
   return c.res({
     image: (
@@ -96,7 +97,9 @@ app.frame("/", async (c) => {
           }}
         >
           {status === "initial" && !error ? (
-            <div style={{ color: "white" }}>Create an embedded wallet</div>
+            <div style={{ color: "white" }}>
+              Create Dynamic Embedded Wallets
+            </div>
           ) : newWallets && newWallets.length > 0 ? (
             newWallets.map((wallet, index) => (
               <div key={index} style={{ color: "white" }}>
@@ -113,7 +116,7 @@ app.frame("/", async (c) => {
     ),
     intents: [
       <TextInput placeholder="Enter a valid email" />,
-      <Button value="submit">Create Embedded Wallet</Button>,
+      <Button value="submit">Create SOL + EVM Embedded Wallets</Button>,
     ],
   });
 });
