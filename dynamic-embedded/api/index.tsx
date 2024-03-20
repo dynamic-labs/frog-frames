@@ -54,7 +54,7 @@ app.frame("/", async (c) => {
   const fid = frameData?.fid;
   let error = status != "initial" && (!isValidEmail || !fid);
 
-  if (!error && status != "initial" && inputText && fid)
+  if (!error && status != "initial" && inputText && fid) {
     try {
       newWallets = await createEmbeddedWallet(inputText, fid, [
         ChainEnum.Sol,
@@ -63,6 +63,7 @@ app.frame("/", async (c) => {
     } catch (e) {
       error = true;
     }
+  }
 
   return c.res({
     image: (
