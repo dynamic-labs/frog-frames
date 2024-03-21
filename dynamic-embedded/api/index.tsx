@@ -40,7 +40,7 @@ const createEmbeddedWallet = async (
     options
   ).then((r) => r.json());
 
-  console.log(response);
+  console.debug(response, response?.user?.wallets);
   newWallets = (response as UserResponse).user.wallets.map(
     (wallet: any) => wallet.publicKey
   );
@@ -127,9 +127,13 @@ app.frame("/", async (c) => {
         </div>
       </div>
     ),
-    intents: [
+    intents: status === "initial" ?  [
       <TextInput placeholder="Enter a valid email" />,
       <Button value="submit">Create SOL + EVM Embedded Wallets</Button>,
+    ] : [
+        <Button.Link href="https://demo.dynamic.xyz">
+            Log in to access your wallets
+        </Button.Link>
     ],
   });
 });
