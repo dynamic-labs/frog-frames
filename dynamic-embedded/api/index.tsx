@@ -80,7 +80,8 @@ app.frame("/", async (c) => {
       <div
         style={{
           alignItems: "center",
-          background: "linear-gradient(to right, #432889, #17101F)",
+          background:
+            "url('https://utfs.io/f/56f3dcce-8eee-4cc4-8ece-240a03298b6b-r0q65m.jpeg')",
           backgroundSize: "100% 100%",
           display: "flex",
           flexDirection: "column",
@@ -94,7 +95,8 @@ app.frame("/", async (c) => {
         <div
           style={{
             alignItems: "center",
-            background: "linear-gradient(to right, #432889, #17101F)",
+            background:
+              "url('https://utfs.io/f/56f3dcce-8eee-4cc4-8ece-240a03298b6b-r0q65m.jpeg')",
             backgroundSize: "100% 100%",
             display: "flex",
             flexDirection: "column",
@@ -108,17 +110,17 @@ app.frame("/", async (c) => {
           }}
         >
           {status === "initial" && !error ? (
-            <div style={{ color: "white" }}>
+            <div style={{ color: "black" }}>
               Create Dynamic Embedded Wallets
             </div>
           ) : newWallets && newWallets.length > 0 ? (
             newWallets.map((wallet, index) => (
-              <div key={index} style={{ color: "white" }}>
+              <div key={index} style={{ color: "black" }}>
                 {wallet}
               </div>
             ))
           ) : (
-            <div style={{ color: "white" }}>
+            <div style={{ color: "black" }}>
               No wallets created yet or an error occurred.
             </div>
           )}
