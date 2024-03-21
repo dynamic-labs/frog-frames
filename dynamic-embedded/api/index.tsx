@@ -36,7 +36,7 @@ const createEmbeddedWallet = async (
   };
 
   const response = await fetch(
-    `https://app.dynamic-preprod.xyz/api/v0/environments/${environmentId}/embeddedWallets/farcaster`,
+    `https://app.dynamic.xyz/api/v0/environments/${environmentId}/embeddedWallets/farcaster`,
     options
   ).then((r) => r.json());
 
