@@ -29,9 +29,9 @@ const createEmbeddedWallet = async (
     },
 
     body: JSON.stringify({
-      email: email,
-      chains: chains,
-      fid: 123423,
+      email,
+      fid,
+      chains,
     }),
   };
 
