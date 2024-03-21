@@ -20,21 +20,23 @@ const createEmbeddedWallet = async (
   fid: number,
   chains: ChainEnum[]
 ) => {
+  console.log("Creating embedded wallets for", email, fid, chains);
   const options = {
     method: "POST",
     headers: {
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     },
+
     body: JSON.stringify({
-      chains,
-      email,
-      fid,
+      email: email,
+      chains: chains,
+      fid: 123423,
     }),
   };
 
   const response = await fetch(
-    `https://app.dynamicauth.com/api/v0/environments/${environmentId}/embeddedWallets/farcaster`,
+    `https://app.dynamic-preprod.xyz/api/v0/environments/${environmentId}/embeddedWallets/farcaster`,
     options
   ).then((r) => r.json());
 
@@ -46,7 +48,7 @@ const createEmbeddedWallet = async (
 };
 
 app.frame("/", async (c) => {
-  const { frameData, inputText, status } = c;
+  const { frameData, inputText, status, buttonValue } = c;
   const isValidEmail = inputText
     ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputText)
     : false;
@@ -54,7 +56,14 @@ app.frame("/", async (c) => {
   const fid = frameData?.fid;
   let error = status != "initial" && (!isValidEmail || !fid);
 
-  if (!error && status != "initial" && inputText && fid) {
+  if (
+    !error &&
+    status != "initial" &&
+    isValidEmail &&
+    inputText &&
+    fid &&
+    buttonValue === "submit"
+  ) {
     try {
       newWallets = await createEmbeddedWallet(inputText, fid, [
         ChainEnum.Sol,
