@@ -110,9 +110,14 @@ app.frame("/", async (c) => {
           }}
         >
           {status === "initial" && !error ? (
-            <div style={{ color: "black" }}>
-              Create a Dynamic EVM + Solana embedded wallet
-            </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: 'auto' }}>
+                  <div style={{ color: "black", fontWeight: "bold", fontSize: '2rem', textAlign: 'center' }}>
+                      Create a Dynamic EVM+Solana embedded wallet
+                  </div>
+                  <div style={{ color: "black", textAlign: 'center', marginTop: '2rem', maxWidth: '75%' }}>
+                      Enter your email to generate a wallet. The wallet will also be associated with your Farcaster ID.
+                  </div>
+              </div>
           ) : newWallets && newWallets.length > 0 ? (
             newWallets.map((wallet, index) => (
               <div key={index} style={{ color: "black" }}>
