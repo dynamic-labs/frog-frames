@@ -111,12 +111,12 @@ app.frame("/", async (c) => {
         >
           {status === "initial" && !error ? (
             <div style={{ color: "black" }}>
-              Create Dynamic Embedded Wallets
+              Create a Dynamic EVM + Solana embedded wallet
             </div>
           ) : newWallets && newWallets.length > 0 ? (
             newWallets.map((wallet, index) => (
               <div key={index} style={{ color: "black" }}>
-                {wallet}
+                {index == 0 ? `EVM: ${wallet}` : `SOL: ${wallet}`}
               </div>
             ))
           ) : (
